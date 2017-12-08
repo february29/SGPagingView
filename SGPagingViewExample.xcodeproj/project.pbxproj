@@ -26,6 +26,7 @@
 		182513EA1F21D1600039F4A2 /* SGPageContentScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182513E01F21D1600039F4A2 /* SGPageContentScrollView.m */; };
 		18B036D21F21D835004C7DE7 /* SGPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B036D11F21D835004C7DE7 /* SGPageTitleView.m */; };
 		18B036D51F21D8B2004C7DE7 /* SGPageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B036D41F21D8B2004C7DE7 /* SGPageContentView.m */; };
+		211A450A1FDA37EE001AAFB2 /* DefaultDelayLoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 211A45091FDA37EE001AAFB2 /* DefaultDelayLoadViewController.m */; };
 		8D0F8E311FD95DE300F30426 /* DefaultCoverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0F8E1E1FD95DE300F30426 /* DefaultCoverVC.m */; };
 		8D0F8E321FD95DE300F30426 /* DefaultFixedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0F8E201FD95DE300F30426 /* DefaultFixedVC.m */; };
 		8D0F8E331FD95DE300F30426 /* DefaultGradientEffectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0F8E221FD95DE300F30426 /* DefaultGradientEffectVC.m */; };
@@ -116,6 +117,8 @@
 		18B036D11F21D835004C7DE7 /* SGPageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGPageTitleView.m; sourceTree = "<group>"; };
 		18B036D31F21D8B2004C7DE7 /* SGPageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGPageContentView.h; sourceTree = "<group>"; };
 		18B036D41F21D8B2004C7DE7 /* SGPageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGPageContentView.m; sourceTree = "<group>"; };
+		211A45081FDA37EE001AAFB2 /* DefaultDelayLoadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultDelayLoadViewController.h; sourceTree = "<group>"; };
+		211A45091FDA37EE001AAFB2 /* DefaultDelayLoadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DefaultDelayLoadViewController.m; sourceTree = "<group>"; };
 		8D0F8E1D1FD95DE300F30426 /* DefaultCoverVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultCoverVC.h; sourceTree = "<group>"; };
 		8D0F8E1E1FD95DE300F30426 /* DefaultCoverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultCoverVC.m; sourceTree = "<group>"; };
 		8D0F8E1F1FD95DE300F30426 /* DefaultFixedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultFixedVC.h; sourceTree = "<group>"; };
@@ -391,6 +394,8 @@
 				8D0F8E201FD95DE300F30426 /* DefaultFixedVC.m */,
 				8D0F8E231FD95DE300F30426 /* DefaultPopGestureVC.h */,
 				8D0F8E241FD95DE300F30426 /* DefaultPopGestureVC.m */,
+				211A45081FDA37EE001AAFB2 /* DefaultDelayLoadViewController.h */,
+				211A45091FDA37EE001AAFB2 /* DefaultDelayLoadViewController.m */,
 			);
 			path = MainVC;
 			sourceTree = "<group>";
@@ -504,7 +509,7 @@
 				TargetAttributes = {
 					1825133F1F21CAC30039F4A2 = {
 						CreatedOnToolsVersion = 8.3.3;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					182513581F21CAC30039F4A2 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -582,6 +587,7 @@
 				8D0F8E5F1FD95E2300F30426 /* ChildFirstPopGestureNextVC.m in Sources */,
 				8D0F8E391FD95DE300F30426 /* DefaultTwoCoverVC.m in Sources */,
 				8D0F8E351FD95DE300F30426 /* DefaultScrollEndVC.m in Sources */,
+				211A450A1FDA37EE001AAFB2 /* DefaultDelayLoadViewController.m in Sources */,
 				8D0F8E641FD95E2300F30426 /* ChildFourthPopGestureVC.m in Sources */,
 				182513D71F21CC340039F4A2 /* PersonalCenterTopView.m in Sources */,
 				8D0F8E381FD95DE300F30426 /* DefaultThreeCoverVC.m in Sources */,
@@ -776,11 +782,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SGPagingViewExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Sorgle.SGPagingViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -788,11 +796,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SGPagingViewExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Sorgle.SGPagingViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

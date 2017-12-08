@@ -22,6 +22,7 @@
  *  @param selectedIndex      选中按钮的下标
  */
 - (void)pageTitleView:(SGPageTitleView *)pageTitleView selectedIndex:(NSInteger)selectedIndex;
+
 @end
 
 @interface SGPageTitleView : UIView

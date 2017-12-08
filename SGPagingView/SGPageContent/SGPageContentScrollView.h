@@ -32,6 +32,18 @@
  *  @param offsetX                   SGPageContentScrollView 内部视图的偏移量
  */
 - (void)pageContentScrollView:(SGPageContentScrollView *)pageContentScrollView offsetX:(CGFloat)offsetX;
+
+
+/**
+ 返回对应index位置的view
+
+ @param pageContentScrollView SGPageContentScrollView
+ @param index 目标视图所在下标
+ @return view
+ */
+- (UIView *)pageContentScrollView:(SGPageContentScrollView *)pageContentScrollView viewForIndex:(NSInteger)index;
+
+
 @end
 
 @interface SGPageContentScrollView : UIView
@@ -43,6 +55,17 @@
  *  @param childVCs     子控制器个数
  */
 - (instancetype)initWithFrame:(CGRect)frame parentVC:(UIViewController *)parentVC childVCs:(NSArray *)childVCs;
+
+
+/**
+ 根据childView的数量初始化SGPageContentScrollView，可延迟初始化childView十几
+
+ @param frame frame
+ @param childViewConut childView的数量
+ @return 实例
+ */
+- (instancetype)initWithFrame:(CGRect)frame childViewCount:(NSInteger)childViewConut;
+
 /**
  *  类方法创建 SGPageContentScrollView
  *
@@ -51,6 +74,7 @@
  *  @param childVCs     子控制器个数
  */
 + (instancetype)pageContentScrollViewWithFrame:(CGRect)frame parentVC:(UIViewController *)parentVC childVCs:(NSArray *)childVCs;
+
 
 /** SGPageContentScrollViewDelegate */
 @property (nonatomic, weak) id<SGPageContentScrollViewDelegate> delegatePageContentScrollView;

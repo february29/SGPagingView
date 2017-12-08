@@ -19,6 +19,8 @@
 @property (nonatomic, weak) UIViewController *parentViewController;
 /// 存储子控制器
 @property (nonatomic, strong) NSArray *childViewControllers;
+/// 自view数量
+@property (nonatomic,assign) NSInteger childViewCount;
 /// scrollView
 @property (nonatomic, strong) UIScrollView *scrollView;
 /// 记录刚开始时的偏移量
@@ -43,6 +45,16 @@
         }
         self.childViewControllers = childVCs;
         
+        [self initialization];
+        [self setupSubviews];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame childViewCount:(NSInteger)childViewConut{
+    if (self = [super initWithFrame:frame]) {
+        
+        _childViewCount = childViewConut;
         [self initialization];
         [self setupSubviews];
     }
@@ -76,7 +88,13 @@
         _scrollView.pagingEnabled = YES;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
-        CGFloat contentWidth = self.childViewControllers.count * _scrollView.SG_width;
+        CGFloat contentWidth;
+        if (self.childViewControllers) {
+            contentWidth = self.childViewControllers.count * _scrollView.SG_width;
+        }else{
+            contentWidth = _childViewCount * _scrollView.SG_width;
+        }
+        
         _scrollView.contentSize = CGSizeMake(contentWidth, 0);
     }
     return _scrollView;
@@ -95,12 +113,24 @@
         [self.delegatePageContentScrollView pageContentScrollView:self offsetX:offsetX];
     }
     NSInteger index = offsetX / scrollView.frame.size.width;
-    UIViewController *childVC = self.childViewControllers[index];
-    // 2、判断控制器的view有没有加载过,如果已经加载过,就不需要加载
-    if (childVC.isViewLoaded) return;
-    [self.scrollView addSubview:childVC.view];
-    [self.parentViewController addChildViewController:childVC];
-    childVC.view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+    if (self.childViewControllers) {
+        UIViewController *childVC = self.childViewControllers[index];
+        // 2、判断控制器的view有没有加载过,如果已经加载过,就不需要加载
+        if (childVC.isViewLoaded) return;
+        [self.scrollView addSubview:childVC.view];
+        if (self.parentViewController)[self.parentViewController addChildViewController:childVC];
+        childVC.view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+    }else{
+        if (self.delegatePageContentScrollView && [self.delegatePageContentScrollView respondsToSelector:@selector(pageContentScrollView:viewForIndex:)]) {
+            UIView *view = [self.delegatePageContentScrollView pageContentScrollView:self viewForIndex:index];
+            [self.scrollView addSubview:view];
+            view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+        }
+    }
+    
+    
+    
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -122,10 +152,18 @@
         originalIndex = currentOffsetX / scrollViewW;
         // 3、计算 targetIndex
         targetIndex = originalIndex + 1;
-        if (targetIndex >= self.childViewControllers.count) {
-            progress = 1;
-            targetIndex = self.childViewControllers.count - 1;
+        if (self.childViewControllers) {
+            if (targetIndex >= self.childViewControllers.count) {
+                progress = 1;
+                targetIndex = self.childViewControllers.count - 1;
+            }
+        }else{
+            if (targetIndex >= _childViewCount) {
+                progress = 1;
+                targetIndex = _childViewCount - 1;
+            }
         }
+        
         // 4、如果完全划过去
         if (currentOffsetX - self.startOffsetX == scrollViewW) {
             progress = 1;
@@ -138,9 +176,17 @@
         targetIndex = currentOffsetX / scrollViewW;
         // 3、计算 originalIndex
         originalIndex = targetIndex + 1;
-        if (originalIndex >= self.childViewControllers.count) {
-            originalIndex = self.childViewControllers.count - 1;
+        
+        if (self.childViewControllers) {
+            if (originalIndex >= self.childViewControllers.count) {
+                originalIndex = self.childViewControllers.count - 1;
+            }
+        }else{
+            if (originalIndex >= _childViewCount) {
+                originalIndex = _childViewCount - 1;
+            }
         }
+       
     }
     // 3、pageContentViewDelegare; 将 progress／sourceIndex／targetIndex 传递给 SGPageTitleView
     if (self.delegatePageContentScrollView && [self.delegatePageContentScrollView respondsToSelector:@selector(pageContentScrollView:progress:originalIndex:targetIndex:)]) {
@@ -154,12 +200,21 @@
     CGFloat offsetX = currentIndex * self.SG_width;
     if (self.isFirstViewLoaded && currentIndex == 0) {
         self.isFirstViewLoaded = NO;
-        // 2、默认选中第一个子控制器；self.scrollView.contentOffset ＝ 0
-        UIViewController *childVC = self.childViewControllers[0];
-        if (childVC.isViewLoaded) return;
-        [self.scrollView addSubview:childVC.view];
-        [self.parentViewController addChildViewController:childVC];
-        childVC.view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+        if (self.childViewControllers) {
+            // 2、默认选中第一个子控制器；self.scrollView.contentOffset ＝ 0
+            UIViewController *childVC = self.childViewControllers[0];
+            if (childVC.isViewLoaded) return;
+            [self.scrollView addSubview:childVC.view];
+            if (self.parentViewController)[self.parentViewController addChildViewController:childVC];
+            childVC.view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+        }else{
+            if (self.delegatePageContentScrollView && [self.delegatePageContentScrollView respondsToSelector:@selector(pageContentScrollView:viewForIndex:)]) {
+                UIView *view = [self.delegatePageContentScrollView pageContentScrollView:self viewForIndex:0];
+                [self.scrollView addSubview:view];
+                view.frame = CGRectMake(offsetX, 0, self.SG_width, self.SG_height);
+            }
+        }
+        
     }
     // 1、处理内容偏移
     self.scrollView.contentOffset = CGPointMake(offsetX, 0);
